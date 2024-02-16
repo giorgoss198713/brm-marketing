@@ -1,0 +1,8 @@
+version: 2
+
+models:
+    - name: test_brm_model
+      description: "1st test model for BRM"
+      config:
+          enabled: true
+          tags: test_brm_model
