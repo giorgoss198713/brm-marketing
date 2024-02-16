@@ -1,8 +1,8 @@
 version: 2
 
 models:
-    - name: campaign_v2_dbt
-      description: "campaign v2"
+    - name: campaigns_v2_dbt
+      description: "campaigns v2"
       config:
           enabled: true
           tags: campaigns_v2
