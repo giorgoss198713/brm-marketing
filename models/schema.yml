@@ -1,41 +1,36 @@
 version: 2
 
 models:
-    - name: test_brm_model
-      description: "1st test model for BRM"
-      config:
-          enabled: true
-          tags: test_brm_model
-    - name: marketing_leads_v2_dbt
-      description: "marketing leads v2 table"
-      config:
-          enabled: true
-          tags: marketing_leads_v2
-    - name: campaign_expenses_transformed_dbt
-      description: "campaign expenses transformed"
-      config:
-          enabled: true
-          tags: campaign_expenses_transformed
     - name: campaign_v2_dbt
       description: "campaign v2"
       config:
           enabled: true
           tags: campaigns_v2
+    - name: campaign_expenses_transformed_dbt
+      description: "campaign expenses transformed"
+      config:
+          enabled: true
+          tags: campaign_expenses_transformed
+    - name: marketing_leads_v2_dbt
+      description: "marketing leads v2 table"
+      config:
+          enabled: true
+          tags: marketing_leads_v2
     - name: independent_expenses_dbt
       description: "independent expenses table"
       config:
           enabled: true
           tags: independent_expenses
-    - name: marketing_leads_transformed_v2_dbt
-      description: "marketing leads transformed table"
-      config:
-          enabled: true
-          tags: marketing_leads_transformed
     - name: unhidden_noleads_dbt
       description: "unidden with no leads table"
       config:
           enabled: true
           tags: unhidden_noleads
+    - name: marketing_leads_transformed_v2_dbt
+      description: "marketing leads transformed table"
+      config:
+          enabled: true
+          tags: marketing_leads_transformed
     - name: marketing_leads_cost_dbt
       description: "marketing leads cost table"
       config:
