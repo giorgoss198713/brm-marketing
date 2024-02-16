@@ -10,7 +10,7 @@ WHEN dialer_id=3 THEN 'CB10'
 WHEN dialer_id=5 THEN 'CB9'
 WHEN dialer_id=2 THEN 'C1'
 WHEN dialer_id=17 THEN 'C6'
-WHEN dialer_id=37 THEN 'C22'
+WHEN dialer_id=37 THEN 'C2'
 WHEN dialer_id=6 THEN 'C3'
 END AS dialer_name,
 dialer_campaign_id, is_fake,
