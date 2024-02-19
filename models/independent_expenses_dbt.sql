@@ -1,6 +1,17 @@
 SELECT
 DISTINCT 
-cet.date as expense_date, 
+cet.date as expense_date,
+CASE WHEN cet.dialer=24 THEN 'C16'
+WHEN cet.dialer=30 THEN 'C17'
+WHEN cet.dialer=22 THEN 'C15'
+WHEN cet.dialer=7 THEN 'C4'
+WHEN cet.dialer=3 THEN 'CB10'
+WHEN cet.dialer=5 THEN 'CB9'
+WHEN cet.dialer=2 THEN 'C1'
+WHEN cet.dialer=17 THEN 'C6'
+WHEN cet.dialer=37 THEN 'C2'
+WHEN cet.dialer=6 THEN 'C3'
+END AS dialer_name,
 cet.campaign_id,
 cm.affiliate_id,
 cet.country, 
