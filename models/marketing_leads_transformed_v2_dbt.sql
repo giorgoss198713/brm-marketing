@@ -62,7 +62,8 @@ WHEN un.aff_count=1 THEN CAST(ml.unhidden_date AS date)
 END
 ) as affiliate_id_date,
 cm.name as campaign_name,
-af.name as affiliate_name
+af.name as affiliate_name,
+CURRENT_TIMESTAMP AS current_datetime
 from public_brm.marketing_leads_v2_dbt ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 left join public_brm.affiliates af on cm.affiliate_id =af.id
