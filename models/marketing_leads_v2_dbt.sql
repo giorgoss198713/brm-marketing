@@ -1,7 +1,7 @@
 select id, created_date, ftd_date, unhidden_date,
 campaign_id, country, dialer_lead_id, dialer_status,  dialer_agent,
 dialer_error, dialer_calls_count, utm_source, utm_medium, source_id,ftd, ftd_deposit_amount, redeposit, 
-redeposits_amount, last_redeposit_date, cost, hidden, selling_cost, campaign_cost, dialer_id, 
+redeposits_amount, last_redeposit_date, cost, hidden, selling_cost, cost_at_create, dialer_id, 
 CASE WHEN dialer_id=24 THEN 'C16'
 WHEN dialer_id=30 THEN 'C17'
 WHEN dialer_id=22 THEN 'C15'

@@ -5,7 +5,7 @@ unhidden_cte AS (SELECT id, 1 AS aff_count from public_brm.marketing_leads_v2_db
 select
 ml.id,
 ml.campaign_id,
-ml.campaign_cost, 
+ml.cost_at_create, 
 ml.dialer_id,
 ml.dialer_name,
 cm.affiliate_id,
@@ -53,7 +53,7 @@ WHEN cm.cost_type='cpa' AND ft.ftd_count>0 THEN CAST(ml.ftd_date AS date)
 WHEN un.aff_count=1 THEN CAST(ml.unhidden_date AS date)
 END, ml.dialer_id, 
 CASE WHEN cm.cost_type='cpl' THEN ml.cost
-WHEN cm.cost_type='cpa' THEN ml.campaign_cost
+WHEN cm.cost_type='cpa' THEN ml.cost_at_create
 END) AS campaign_country_date_dialer_cost,
 CONCAT_WS('_',cm.affiliate_id,
 CASE WHEN cc.created_count=1 THEN CAST(ml.created_date AS date)
