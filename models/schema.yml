@@ -36,3 +36,8 @@ models:
       config:
           enabled: true
           tags: marketing_leads_cost
+    - name: sales_transactions_rejected_dbt
+      description: "rejected transaction reasons"
+      config:
+          enabled: true
+          tags: sales_transactions_rejected
