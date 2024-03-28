@@ -41,3 +41,8 @@ models:
       config:
           enabled: true
           tags: sales_transactions_rejected
+    - name: dialer_languages
+      description: "dialer language mapping"
+      config:
+          enabled: true
+          tags: dialer_languages
