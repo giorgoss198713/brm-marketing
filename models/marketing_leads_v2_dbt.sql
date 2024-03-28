@@ -1,4 +1,4 @@
-select id, created_date, ftd_date, unhidden_date,
+select id, sales_lead_id, created_date, ftd_date, unhidden_date,
 campaign_id, country, dialer_lead_id, dialer_status,  dialer_agent,
 dialer_error, dialer_calls_count, utm_source, utm_medium, source_id,ftd, ftd_deposit_amount, redeposit, 
 redeposits_amount, last_redeposit_date, cost, hidden, selling_cost, cost_at_create, dialer_id, 
@@ -12,6 +12,7 @@ WHEN dialer_id=2 THEN 'C1'
 WHEN dialer_id=17 THEN 'C6'
 WHEN dialer_id=37 THEN 'C2'
 WHEN dialer_id=6 THEN 'C3'
+ELSE 'Unknown Dialer'
 END AS dialer_name,
 dialer_campaign_id, is_fake,
 dialer_comment,

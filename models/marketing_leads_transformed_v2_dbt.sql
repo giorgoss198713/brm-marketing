@@ -4,6 +4,7 @@ ftd_cte AS (SELECT id, 1 AS ftd_count from public_brm.marketing_leads_v2_dbt WHE
 unhidden_cte AS (SELECT id, 1 AS aff_count from public_brm.marketing_leads_v2_dbt WHERE hidden is false) 
 select
 ml.id,
+ml.sales_lead_id,
 ml.campaign_id,
 ml.cost_at_create, 
 ml.dialer_id,
