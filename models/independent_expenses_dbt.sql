@@ -12,6 +12,11 @@ WHEN cet.dialer=17 THEN 'C6'
 WHEN cet.dialer=37 THEN 'C2'
 WHEN cet.dialer=6 THEN 'C3'
 END AS dialer_name,
+CASE WHEN dl.language='TR/AZ' THEN 'Invalid'
+WHEN dl.language ='RU' AND cm.dialer_campaign_id=539
+THEN 'TR/AZ'
+ELSE dl.language END as dialer_language,
+cm.dialer_campaign_id,
 cet.campaign_id,
 cm.affiliate_id,
 cet.country, 
@@ -26,6 +31,7 @@ case when cast(ml.created_date as date)>=cast(ml.ftd_date as date) or cast(ml.ft
 ml.dialer_id)= cet.campaign_country_date_dialer
 left join public_brm.campaigns_v2_dbt cm on cm.id = cet.campaign_id
 left join public_brm.affiliates af on af.id = cm.affiliate_id
+left join public_brm.dialer_languages dl ON dl.id =cet.dialer
 where
 cet.expense IS NOT NULL
 AND cet.dialer IS NOT NULL
