@@ -1,5 +1,5 @@
 select 
-id,
+st.id,
 lead_id, created_date, updated_date, amount, product_id, product_name, payment_profile, status, currency,
 payment_method, psp_transaction_id, is_fake, confirmed, amount_in_usd, type, checked, approved_date, 
 psp, payments_pro_transaction_id, rejected_Date, crypto_currency, crypto_amount, wire_transfer_confirmation, 
@@ -74,7 +74,24 @@ WHEN notes ilike '%General+decline+of+the+card%' THEN 'General Card Decline'
 WHEN notes ilike '%+Inactive+card+or+card%' THEN 'Inactive Card'
 WHEN notes ilike '%rejected+by+Decision+Manager%' THEN 'Rejected by Decision Manager'
 ELSE 'Unspecified Reason'
-END AS decline_reason
-FROM public_brm.sales_transactions
+END AS decline_reason,
+CASE 
+WHEN psp IN ('AccentPay','Accetpayac') THEN 'Accentpay'
+WHEN psp IN ('Alimpay','Alumpay', 'AliumPay', 'Bank Transfer PIX_Alium', 'Bank_Transfer PIX_Alium', 'Bank Transfer PIX_AliumPay') THEN 'Aliumpay'
+WHEN psp IN ('Ffibonatix', 'Fibinatix', 'fibo', 'Fiboantix', 'Fiboatix', 'Fibonaitx', 'Fibonati', 'fibonatix', '	 Fibonatix', 'Fibonatix.', 'FIbonatix', 'Fibonatix A', 'Fibonatixc', 
+'Fibonatix	Fibonatix', 'Fibonatix-R','Fibotanix','Finatix') THEN 'Fibonatix'
+WHEN psp IN ('wire', 'FTD_Wire','WirePN') THEN 'Wisewire'
+ELSE psp
+END as psp_name,
+p.id as psp_id
+FROM public_brm.sales_transactions st
+LEFT JOIN public_brm.psps p on p.name= CASE 
+WHEN psp IN ('AccentPay','Accetpayac') THEN 'Accentpay'
+WHEN psp IN ('Alimpay','Alumpay', 'AliumPay', 'Bank Transfer PIX_Alium', 'Bank_Transfer PIX_Alium', 'Bank Transfer PIX_AliumPay') THEN 'Aliumpay'
+WHEN psp IN ('Ffibonatix', 'Fibinatix', 'fibo', 'Fiboantix', 'Fiboatix', 'Fibonaitx', 'Fibonati', 'fibonatix', '	 Fibonatix', 'Fibonatix.', 'FIbonatix', 'Fibonatix A', 'Fibonatixc', 
+'Fibonatix	Fibonatix', 'Fibonatix-R','Fibotanix','Finatix') THEN 'Fibonatix'
+WHEN psp IN ('wire', 'FTD_Wire','WirePN') THEN 'Wisewire'
+ELSE psp END
 WHERE
 Status='Rejected'
+AND psp NOT IN ('test','Test')
