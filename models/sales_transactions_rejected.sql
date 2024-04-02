@@ -98,7 +98,8 @@ WHEN psp IN ('Ffibonatix', 'Fibinatix', 'fibo', 'Fiboantix', 'Fiboatix', 'Fibona
 WHEN psp IN ('wire', 'FTD_Wire','WirePN') THEN 'Wisewire'
 ELSE psp
 END as psp_name,
-p.id as psp_id
+p.id as psp_id,
+CURRENT_TIMESTAMP AS current_datetime
 FROM public_brm.sales_transactions st
 LEFT JOIN public_brm.psps p on p.name= CASE 
 WHEN psp IN ('AccentPay','Accetpayac') THEN 'Accentpay'
