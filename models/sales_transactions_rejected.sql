@@ -1,7 +1,22 @@
 select 
 st.id,
-lead_id, created_date, updated_date, amount, product_id, product_name, payment_profile, status, currency,
-payment_method, psp_transaction_id, is_fake, confirmed, amount_in_usd, type, checked, approved_date, 
+lead_id, created_date, updated_date, amount, 
+amount_in_usd,
+CASE WHEN round(cast(amount_in_usd as numeric),0)>0 AND round(cast(amount_in_usd as numeric),0)<=175
+THEN '$100'
+WHEN round(cast(amount_in_usd as numeric),0)>175 AND round(cast(amount_in_usd as numeric),0)<=275
+THEN '$250'
+WHEN round(cast(amount_in_usd as numeric),0)>275 AND round(cast(amount_in_usd as numeric),0)<=350
+THEN '$300'
+WHEN round(cast(amount_in_usd as numeric),0)>350 AND round(cast(amount_in_usd as numeric),0)<=450
+THEN '$400'
+WHEN round(cast(amount_in_usd as numeric),0)>450 AND round(cast(amount_in_usd as numeric),0)<=550
+THEN '$500'
+WHEN round(cast(amount_in_usd as numeric),0)>550 
+THEN '$550+'
+END AS usd_bucket,
+product_id, product_name, payment_profile, status, currency,
+payment_method, psp_transaction_id, is_fake, confirmed, type, checked, approved_date, 
 psp, payments_pro_transaction_id, rejected_Date, crypto_currency, crypto_amount, wire_transfer_confirmation, 
 add_to_balance, sync_error,
 notes, 
@@ -94,4 +109,5 @@ WHEN psp IN ('wire', 'FTD_Wire','WirePN') THEN 'Wisewire'
 ELSE psp END
 WHERE
 Status='Rejected'
+AND type='Deposit'
 AND psp NOT IN ('test','Test')
