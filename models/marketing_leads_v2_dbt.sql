@@ -1,4 +1,4 @@
-select id, sales_lead_id, created_date, ftd_date, unhidden_date,
+select ml.id, sales_lead_id, created_date, ftd_date, unhidden_date,
 campaign_id, country, dialer_lead_id, dialer_status,  dialer_agent,
 dialer_error, dialer_calls_count, utm_source, utm_medium, source_id,ftd, ftd_deposit_amount, redeposit, 
 redeposits_amount, last_redeposit_date, cost, hidden, selling_cost, cost_at_create, dialer_id, 
@@ -14,7 +14,7 @@ WHEN dialer_id=37 THEN 'C2'
 WHEN dialer_id=6 THEN 'C3'
 ELSE 'Unknown Dialer'
 END AS dialer_name,
-dialer_campaign_id, is_fake,
+ml.dialer_campaign_id, is_fake,
 dialer_comment,
 (CASE WHEN (dialer_status iLIKE '%BL MANUAL%'
 or dialer_status iLIKE '%Blacklisted Prefix%'
@@ -53,7 +53,9 @@ WHEN ftd_deposit_amount>=700
 AND ftd_deposit_amount<900 THEN 800
 WHEN ftd_deposit_amount>=900 THEN 900
 ELSE NULL
-END) AS ftd_approx
-from public_brm.marketing_leads
+END) AS ftd_approx,
+cm.cost_type
+from public_brm.marketing_leads ml
+left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 WHERE
 is_test is false
