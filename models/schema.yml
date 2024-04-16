@@ -11,7 +11,7 @@ models:
       config:
           enabled: true
           tags: campaign_expenses_transformed
-    - name: inhouse_data.sql
+    - name: inhouse_data
       description: "distinct inhouse data values"
       config:
           enabled: true
@@ -21,7 +21,7 @@ models:
       config:
           enabled: true
           tags: marketing_leads_v2
-    - name: ml_invalid_statuses.sql
+    - name: ml_invalid_statuses
       description: "distinct invalid statuses"
       config:
           enabled: true
