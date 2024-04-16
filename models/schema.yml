@@ -11,11 +11,21 @@ models:
       config:
           enabled: true
           tags: campaign_expenses_transformed
+    - name: inhouse_data.sql
+      description: "distinct inhouse data values"
+      config:
+          enabled: true
+          tags: inhouse_data
     - name: marketing_leads_v2_dbt
       description: "marketing leads v2 table"
       config:
           enabled: true
           tags: marketing_leads_v2
+    - name: ml_invalid_statuses.sql
+      description: "distinct invalid statuses"
+      config:
+          enabled: true
+          tags: ml_invalid_statuses
     - name: independent_expenses_dbt
       description: "independent expenses table"
       config:
