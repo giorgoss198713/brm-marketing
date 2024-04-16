@@ -1,0 +1,1 @@
+select distinct inhouse_data_live from public_brm.campaigns_v2_dbt

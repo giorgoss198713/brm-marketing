@@ -1,0 +1,1 @@
+select distinct invalid_status from public_brm.marketing_leads_v2_dbt
