@@ -56,3 +56,13 @@ models:
       config:
           enabled: true
           tags: dialer_languages
+    - name: live_late_ftds
+      description: "live and late ftds report"
+      config:
+          enabled: true
+          tags: live_late_ftds
+    - name: engagement_stats
+      description: "by engagement status report"
+      config:
+          enabled: true
+          tags: ngagement_stats
