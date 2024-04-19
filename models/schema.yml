@@ -65,4 +65,4 @@ models:
       description: "by engagement status report"
       config:
           enabled: true
-          tags: ngagement_stats
+          tags: engagement_stats
