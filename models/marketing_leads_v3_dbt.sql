@@ -49,7 +49,7 @@ WHEN dialer_status iLIKE '%wrong person%' then 'ENGAGE'
 WHEN dialer_status='Z EPA' then 'ENGAGE'
 WHEN dialer_status='Z_EPA 2' then 'ENGAGE'
 WHEN dialer_status='Z EPA(Disregard)' then 'ENGAGE'
-WHEN dialer_status IS NULL then NULL
+WHEN dialer_status IS NULL then "NULL"
 ELSE 'Unknown'
 END AS engagement_status,
 CASE 
@@ -155,3 +155,5 @@ left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 left join public_brm.affiliates aff on cm.affiliate_id=aff.id
 WHERE
 is_test is false
+AND created_date >= CURRENT_DATE - INTERVAL '1 day'
+AND created_date < CURRENT_DATE
