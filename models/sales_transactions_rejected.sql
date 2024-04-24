@@ -1,6 +1,10 @@
-select 
-st.id,
-lead_id, created_date, updated_date, amount, 
+WITH RejectedTransactions AS (
+    SELECT 
+        st.id,
+        lead_id,
+        created_date,
+        ROW_NUMBER() OVER (PARTITION BY lead_id ORDER BY created_date) AS rn,
+         updated_date, amount, 
 amount_in_usd,
 CASE WHEN round(cast(amount_in_usd as numeric),0)>0 AND round(cast(amount_in_usd as numeric),0)<=175
 THEN '$100'
@@ -100,7 +104,8 @@ ELSE psp
 END as psp_name,
 p.id as psp_id,
 CURRENT_TIMESTAMP AS current_datetime
-FROM public_brm.sales_transactions st
+    FROM 
+        public_brm.sales_transactions st
 LEFT JOIN public_brm.psps p on p.name= CASE 
 WHEN psp IN ('AccentPay','Accetpayac') THEN 'Accentpay'
 WHEN psp IN ('Alimpay','Alumpay', 'AliumPay', 'Bank Transfer PIX_Alium', 'Bank_Transfer PIX_Alium', 'Bank Transfer PIX_AliumPay') THEN 'Aliumpay'
@@ -108,7 +113,45 @@ WHEN psp IN ('Ffibonatix', 'Fibinatix', 'fibo', 'Fiboantix', 'Fiboatix', 'Fibona
 'Fibonatix	Fibonatix', 'Fibonatix-R','Fibotanix','Finatix') THEN 'Fibonatix'
 WHEN psp IN ('wire', 'FTD_Wire','WirePN') THEN 'Wisewire'
 ELSE psp END
-WHERE
-Status='Rejected'
-AND type='Deposit'
-AND psp NOT IN ('test','Test')
+    WHERE
+        status = 'Rejected'
+        AND type = 'Deposit'
+        AND psp NOT IN ('test', 'Test')
+)
+SELECT 
+    id,
+    lead_id,
+    created_date,
+    updated_date, 
+	amount, 
+	amount_in_usd,
+	usd_bucket, 
+	product_id, 
+	product_name, 
+	payment_profile, 
+	status, 
+	currency,
+	payment_method, 
+	psp_transaction_id, 
+	is_fake, 
+	confirmed, 
+	type, 
+	checked, 
+	approved_date, 
+	psp, 
+	payments_pro_transaction_id, 
+	rejected_Date, 
+	crypto_currency, 
+	crypto_amount, 
+	wire_transfer_confirmation, 
+	add_to_balance, 
+	sync_error,
+	notes, 
+	decline_reason,
+	psp_name,
+	psp_id,
+	current_datetime
+FROM 
+    RejectedTransactions
+WHERE 
+    rn = 1
