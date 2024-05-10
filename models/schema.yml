@@ -51,6 +51,11 @@ models:
       config:
           enabled: true
           tags: sales_transactions_rejected
+    - name: sales_transactions_all
+      description: "all transactions including non unique"
+      config:
+          enabled: true
+          tags: sales_transactions_all
     - name: dialer_languages
       description: "dialer language mapping"
       config:
