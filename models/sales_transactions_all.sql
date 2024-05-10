@@ -1,4 +1,3 @@
-WITH RejectedTransactions AS (
     SELECT 
         st.id,
         lead_id,
@@ -119,42 +118,3 @@ ELSE psp END
         status in ('Approved','Rejected')
         AND type = 'Deposit'
         AND psp NOT IN ('test', 'Test')
-)
-SELECT 
-    id,
-    lead_id,
-    created_date,
-    updated_date, 
-	amount, 
-	amount_in_usd,
-	usd_bucket, 
-	product_id, 
-	product_name, 
-	payment_profile, 
-	status, 
-	currency,
-	payment_method, 
-	psp_transaction_id, 
-	is_fake, 
-	confirmed, 
-	type, 
-	checked, 
-	approved_date, 
-	psp, 
-	payments_pro_transaction_id, 
-	rejected_Date, 
-	crypto_currency, 
-	crypto_amount, 
-	wire_transfer_confirmation, 
-	add_to_balance, 
-	sync_error,
-	notes, 
-	decline_reason,
-	psp_name,
-	psp_id,
-	ftd_day,
-	current_datetime
-FROM 
-    RejectedTransactions
-WHERE 
-    rn = 1
