@@ -16,6 +16,7 @@ dialer_status,
 utm_source,
 utm_medium,
 dialer_campaign_id,
+dialer_language,
 campaign_name,
 affiliate_name,
 affiliate_id,
@@ -29,7 +30,7 @@ concat_ws('_',to_char(created_date, 'YYYY (' ||
 to_char(created_date,'MM') || ') Mon'),dialer_id) as concat,			 
 count(id) as engagement_count
 from public_brm.marketing_leads_v3_dbt
-group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19
 )
 
 select
@@ -42,6 +43,7 @@ pt_count.dialer_status,
 pt_count.utm_source,
 pt_count.utm_medium,
 pt_count.dialer_campaign_id,
+pt_count.dialer_language,
 pt_count.campaign_name,
 pt_count.affiliate_name,
 pt_count.affiliate_id,
