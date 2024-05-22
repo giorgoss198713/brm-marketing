@@ -9,10 +9,14 @@ ml.campaign_id,
 ml.cost_at_create, 
 ml.dialer_id,
 ml.dialer_name,
-CASE WHEN dl.language='TR/AZ' THEN 'Invalid'
-WHEN dl.language ='RU' AND ml.dialer_campaign_id=539
-THEN 'TR/AZ'
-ELSE dl.language END as dialer_language,
+CASE WHEN ml.dialer_name='C17' THEN 'EN'
+    WHEN ml.dialer_name='C2' AND ml.dialer_campaign_id=539 THEN 'TR/AZ'
+    WHEN ml.dialer_name='C2' AND ml.dialer_campaign_id!=539 THEN 'RU'
+    WHEN ml.dialer_name='C4' THEN 'FR'
+    WHEN ml.dialer_name='C6' THEN 'TH'
+    WHEN ml.dialer_name='CB10' THEN 'BR1'
+    WHEN ml.dialer_name='CB9' THEN 'BR2'
+    ELSE 'Unknown' END AS dialer_language,
 cm.affiliate_id,
 ml.cost, 
 ml.country,
