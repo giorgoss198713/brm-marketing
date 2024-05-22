@@ -3,6 +3,14 @@ campaign_id, country, dialer_lead_id, dialer_agent,
 dialer_error, dialer_calls_count, utm_source, utm_medium, source_id,ftd, ftd_deposit_amount, redeposit, 
 redeposits_amount, last_redeposit_date, cost, hidden, selling_cost, cost_at_create, dialer_id,
 dialer_status,
+CASE WHEN dialer_name='C17' THEN 'EN'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id=539 THEN 'TR/AZ'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id!=539 THEN 'RU'
+    WHEN dialer_name='C4' THEN 'FR'
+    WHEN dialer_name='C6' THEN 'TH'
+    WHEN dialer_name='CB10' THEN 'BR1'
+    WHEN dialer_name='CB9' THEN 'BR2'
+    ELSE 'Unknown' END AS dialer_language,
 CASE 
 WHEN dialer_status iLIKE '%Ghost%' then 'NOT ENGAGE'
 WHEN dialer_status iLIKE '%hang up%' then 'NOT ENGAGE'
@@ -154,6 +162,5 @@ from public_brm.marketing_leads ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 left join public_brm.affiliates aff on cm.affiliate_id=aff.id
 WHERE
-created_date>'2023-12-31' OR ftd_date>'2023-12-31' OR unhidden_date>'2023-12-31'
-AND is_test is false
+is_test is false
 AND CAST(created_date AS Date)<= CURRENT_DATE - INTERVAL '1 day'
