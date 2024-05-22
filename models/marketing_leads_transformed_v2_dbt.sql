@@ -76,3 +76,5 @@ left join public_brm.dialer_languages dl ON dl.id =ml.dialer_id
 left join created_cte cc ON cc.id=ml.id
 left join ftd_cte ft ON ft.id=ml.id
 left join unhidden_cte un ON un.id=ml.id
+WHERE
+created_date>'2023-12-31' OR ftd_date>'2023-12-31' OR unhidden_date>'2023-12-31'
