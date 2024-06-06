@@ -1,11 +1,14 @@
-    select 
-    id,
-    service_name,
-    CASE WHEN service_name='C17' THEN 'EN'
-    WHEN service_name='C2' THEN 'RU'
-    WHEN service_name='C4' THEN 'FR'
-    WHEN service_name='C6' THEN 'TH'
-    WHEN service_name='CB10' THEN 'BR1'
-    WHEN service_name='CB9' THEN 'BR2'
-    ELSE 'TR/AZ' END AS language
-    FROM public_brm.external_apis
+SELECT 
+    dialer_name_language, 
+    dialer_language
+FROM (VALUES
+    ('C17 - EN', 'EN'),
+    ('C2 - TR/AZ', 'TR/AZ'),
+    ('C2 - RU', 'RU'),
+    ('CB10 - BR1', 'BR1'),
+    ('CB9 - BR2', 'BR2'),
+    ('CB9 - ITL', 'ITL'),
+    ('C4 - FR', 'FR'),
+    ('C6 - TH', 'TH'),
+    ('Unknown', 'Unknown')
+) AS dialer_languages(dialer_name_language, dialer_language)

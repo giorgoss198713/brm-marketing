@@ -15,6 +15,8 @@ END AS dialer_name,
 CASE WHEN dl.language='TR/AZ' THEN 'Invalid'
 WHEN dl.language ='RU' AND cm.dialer_campaign_id=539
 THEN 'TR/AZ'
+WHEN cet.dialer=5 AND cm.dialer_campaign_id=169
+THEN 'ITL'
 ELSE dl.language END as dialer_language,
 cm.dialer_campaign_id,
 cet.campaign_id,
