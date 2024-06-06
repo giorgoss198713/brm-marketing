@@ -91,6 +91,7 @@ WHEN notes ilike '%Restrictions for the customer card%' THEN 'Card Restrictions'
 WHEN notes ilike '%General+decline+of+the+card%' THEN 'General Card Decline'
 WHEN notes ilike '%+Inactive+card+or+card%' THEN 'Inactive Card'
 WHEN notes ilike '%rejected+by+Decision+Manager%' THEN 'Rejected by Decision Manager'
+WHEN notes ilike '%deserted%' THEN 'Deserted'
 ELSE 'Unspecified Reason'
 END AS decline_reason,
 CASE 
