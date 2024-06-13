@@ -77,7 +77,7 @@ CURRENT_TIMESTAMP AS current_datetime
 from public_brm.marketing_leads_v2_dbt ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 left join public_brm.affiliates af on cm.affiliate_id =af.id
-left join public_brm.dialer_languages dl ON dl.id =ml.dialer_id
+--left join public_brm.dialer_languages dl ON dl.id =ml.dialer_id
 left join created_cte cc ON cc.id=ml.id
 left join ftd_cte ft ON ft.id=ml.id
 left join unhidden_cte un ON un.id=ml.id
