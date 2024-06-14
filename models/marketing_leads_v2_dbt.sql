@@ -53,5 +53,5 @@ from public_brm.marketing_leads ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 --left join public_brm.affiliates aff on cm.affiliate_id=aff.id
 WHERE
-created_date>'2023-12-31' OR ftd_date>'2023-12-31' OR unhidden_date>'2023-12-31'
-AND is_test is false
+is_test is false
+AND (created_date>'2023-12-31' OR ftd_date>'2023-12-31' OR unhidden_date>'2023-12-31')
