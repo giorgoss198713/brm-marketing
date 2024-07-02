@@ -26,7 +26,8 @@ SELECT DISTINCT
     cet.dialer,
     cm.name as campaign_name,
     af.name as affiliate_name,
-    cet.expense
+    cet.expense,
+    cm.inhouse_data_live
 FROM public_brm.campaign_expenses_transformed_dbt cet
 LEFT JOIN public_brm.campaigns_v2_dbt cm ON cm.id = cet.campaign_id
 LEFT JOIN public_brm.marketing_leads_v2_dbt ml ON CONCAT_WS('_', ml.campaign_id, ml.country,
