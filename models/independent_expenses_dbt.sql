@@ -35,7 +35,7 @@ LEFT JOIN public_brm.marketing_leads_v2_dbt ml ON CONCAT_WS('_', ml.campaign_id,
         WHEN ml.cost_type = 'cpl' THEN CAST(ml.created_date AS date)
         WHEN ml.cost_type = 'cpa' THEN 
             CASE 
-                WHEN CAST(ml.created_date AS date) >= CAST(ml.ftd_date AS date) 
+                WHEN CAST(ml.created_date AS date) >= CAST(ml.ftd_date AS date)
                 OR CAST(ml.ftd_date AS date) IS NULL THEN CAST(ml.created_date AS date)
                 ELSE CAST(ml.ftd_date AS date)
             END
