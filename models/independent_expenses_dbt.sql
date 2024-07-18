@@ -15,8 +15,8 @@ SELECT DISTINCT
     CASE 
         WHEN cet.dialer = 37 AND cm.dialer_campaign_id = 539 THEN 'TR/AZ'
 		WHEN cet.dialer = 37 AND cm.dialer_campaign_id <> 539 THEN 'RU'
-        WHEN cet.dialer = 5 AND cm.dialer_campaign_id = 169 THEN 'ITL'
-        WHEN cet.dialer = 5 AND cm.dialer_campaign_id <> 169 THEN 'BR2'
+        WHEN cet.dialer = 5 AND cm.dialer_campaign_id IN (169,170) THEN 'ITL'
+        WHEN cet.dialer = 5 AND cm.dialer_campaign_id NOT IN (169,170) THEN 'BR2'
         ELSE dl.dialer_language 
     END as dialer_language,
     cm.dialer_campaign_id,
