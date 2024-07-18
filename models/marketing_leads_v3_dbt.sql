@@ -9,8 +9,8 @@ CASE WHEN dialer_name='C17' THEN 'EN'
     WHEN dialer_name='C4' THEN 'FR'
     WHEN dialer_name='C6' THEN 'TH'
     WHEN dialer_name='CB10' THEN 'BR1'
-    WHEN dialer_name='CB9' AND ml.dialer_campaign_id=169 THEN 'ITL'
-    WHEN dialer_name='CB9' AND ml.dialer_campaign_id!=169 THEN 'BR2'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id IN (169,170) THEN 'ITL'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id NOT IN (169,170) THEN 'BR2'
     ELSE 'Unknown' END AS dialer_language,
 CASE 
 WHEN dialer_status iLIKE '%Ghost%' then 'NOT ENGAGE'
