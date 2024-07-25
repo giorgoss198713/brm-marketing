@@ -6,6 +6,24 @@ redeposits_amount, last_redeposit_date, cost, hidden, selling_cost,
 dialer_id,
 dialer_status,
 dialer_name,
+CASE WHEN dialer_name='C17' THEN 'EN'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id=539 THEN 'TR/AZ'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id!=539 THEN 'RU'
+    WHEN dialer_name='C4' THEN 'FR'
+    WHEN dialer_name='C6' THEN 'TH'
+    WHEN dialer_name='CB10' THEN 'BR1'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id IN (169,170) THEN 'ITL'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id NOT IN (169,170) THEN 'BR2'
+    ELSE 'Unknown' END AS dialer_language,
+CASE WHEN dialer_name='C17' THEN 'C17 - EN'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id=539 THEN 'C2 - TR/AZ'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id!=539 THEN 'C2 - RU'
+    WHEN dialer_name='C4' THEN 'C4 - FR'
+    WHEN dialer_name='C6' THEN 'C6 - TH'
+    WHEN dialer_name='CB10' THEN 'CB10 - BR1'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id IN (169,170) THEN 'CB9 - ITL'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id NOT IN (169,170) THEN 'CB9 - BR2'
+    ELSE 'Unknown' END AS dialer_name_language,
 ml.dialer_campaign_id, is_fake,
 dialer_comment,
 (CASE WHEN (dialer_status iLIKE '%BL MANUAL%'
