@@ -76,3 +76,8 @@ models:
       config:
           enabled: true
           tags: fx_rates
+    - name: sales_transactions_transformed
+      description: "sales transactions without redeposits"
+      config:
+          enabled: true
+          tags: sales_transactions_transformed
