@@ -54,14 +54,14 @@ WHEN ftd_deposit_amount>=500 THEN '07. $500+'
 ELSE 'Not an FTD'
 END) AS ftd_bucket,
 (CASE WHEN  ftd_deposit_amount>0
-AND ftd_deposit_amount<200 THEN 100
+AND ftd_deposit_amount<200 THEN '100'
 WHEN ftd_deposit_amount>=200
-AND ftd_deposit_amount<350 THEN 250
+AND ftd_deposit_amount<350 THEN '250'
 WHEN ftd_deposit_amount>=350
-AND ftd_deposit_amount<700 THEN 400
+AND ftd_deposit_amount<700 THEN '400'
 WHEN ftd_deposit_amount>=700
-AND ftd_deposit_amount<900 THEN 800
-WHEN ftd_deposit_amount>=900 THEN 900
+AND ftd_deposit_amount<900 THEN '800'
+WHEN ftd_deposit_amount>=900 THEN '800+'
 ELSE NULL
 END) AS ftd_approx,
 cm.cost_type,
