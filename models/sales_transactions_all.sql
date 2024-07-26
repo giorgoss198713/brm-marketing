@@ -106,7 +106,7 @@ p.id as psp_id,
 cast(ml.ftd_date as date) as ftd_day,
 CURRENT_TIMESTAMP AS current_datetime
     FROM 
-        public_brm.sales_transactions st
+        public_brm.sales_transactions_transformed st
 LEFT JOIN public_brm.marketing_leads ml ON ml.sales_lead_id=st.lead_id
 LEFT JOIN public_brm.psps p on p.name= CASE 
 WHEN psp IN ('AccentPay','Accetpayac') THEN 'Accentpay'
