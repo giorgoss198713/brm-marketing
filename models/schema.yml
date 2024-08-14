@@ -81,3 +81,8 @@ models:
       config:
           enabled: true
           tags: sales_transactions_transformed
+    - name: marketing_leads_transformed_live_late_dbt
+      description: "marketing leads transformed table for live late only"
+      config:
+          enabled: true
+          tags: marketing_leads_transformed_live_late

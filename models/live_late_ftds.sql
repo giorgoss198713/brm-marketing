@@ -27,7 +27,7 @@ concat_ws('_',dialer_name,country) as dialer_country,
 coalesce(sum(live_ftd_count),0) as live_ftds,
 (coalesce(sum(ftd.ftd_count),0)-coalesce(sum(live_ftd_count),0)) as late_ftds,
 coalesce(sum(ftd.ftd_count),0) as total_ftds
-from public_brm.marketing_leads_transformed_v2_dbt mlt2
+from public_brm.marketing_leads_transformed_live_late_dbt mlt2
 left join live_ftd lf ON lf.id=mlt2.id
 left join ftd_cte ftd ON ftd.id=mlt2.id
 where
