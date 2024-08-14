@@ -1,14 +1,7 @@
-/*
-select brand_name, count(id)
-from imports.crm_manager_transactions
-group by brand_name
-order by brand_name
-*/
-
 with
-live_ftd AS (SELECT id, 1 AS live_ftd_count from public_brm.marketing_leads_v2_dbt
+live_ftd AS (SELECT id, 1 AS live_ftd_count from public_brm.marketing_leads_v3_dbt
 WHERE cast(ftd_date as date)=cast(created_date as date)),
-ftd_cte AS (SELECT id, 1 AS ftd_count from public_brm.marketing_leads_v2_dbt
+ftd_cte AS (SELECT id, 1 AS ftd_count from public_brm.marketing_leads_v3_dbt
 WHERE ftd is true)
 select to_char(ftd_date, 'YYYY (' ||
 to_char(ftd_date,'MM') || ') Mon') as month_year_ftd, 
