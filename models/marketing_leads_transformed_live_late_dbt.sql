@@ -1,7 +1,7 @@
 WITH RECURSIVE
-created_cte AS (SELECT id, 1 AS created_count from public_brm.marketing_leads_v2_dbt),
-ftd_cte AS (SELECT id, 1 AS ftd_count from public_brm.marketing_leads_v2_dbt WHERE ftd is true),
-unhidden_cte AS (SELECT id, 1 AS aff_count from public_brm.marketing_leads_v2_dbt WHERE hidden is false) 
+created_cte AS (SELECT id, 1 AS created_count from public_brm.marketing_leads_v3_dbt),
+ftd_cte AS (SELECT id, 1 AS ftd_count from public_brm.marketing_leads_v3_dbt WHERE ftd is true),
+unhidden_cte AS (SELECT id, 1 AS aff_count from public_brm.marketing_leads_v3_dbt WHERE hidden is false) 
 select
 ml.id,
 ml.sales_lead_id,
@@ -84,7 +84,7 @@ END
 cm.name as campaign_name,
 af.name as affiliate_name,
 CURRENT_TIMESTAMP AS current_datetime
-from public_brm.marketing_leads_v2_dbt ml
+from public_brm.marketing_leads_v3_dbt ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 left join public_brm.affiliates af on cm.affiliate_id =af.id
 --left join public_brm.dialer_languages dl ON dl.id =ml.dialer_id
