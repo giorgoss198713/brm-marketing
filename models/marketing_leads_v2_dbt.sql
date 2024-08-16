@@ -1,4 +1,8 @@
-select ml.id, sales_lead_id, created_date, ftd_date, unhidden_date,
+select ml.id, sales_lead_id, 
+created_date, 
+case when hidden is false and is_fake is false and unhidden_date is not null and ftd_date>unhidden_date then unhidden_date
+else ftd_date end as ftd_date, 
+unhidden_date,
 campaign_id, country, dialer_lead_id, dialer_agent,
 dialer_error, dialer_calls_count, utm_source, utm_medium, source_id,ftd, ftd_deposit_amount, redeposit, 
 redeposits_amount, last_redeposit_date, cost, hidden, selling_cost, 

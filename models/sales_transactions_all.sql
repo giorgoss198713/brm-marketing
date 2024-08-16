@@ -103,7 +103,8 @@ WHEN psp IN ('wire', 'FTD_Wire','WirePN') THEN 'Wisewire'
 ELSE psp
 END as psp_name,
 p.id as psp_id,
-cast(ml.ftd_date as date) as ftd_day,
+cast(case when ml.hidden is false and ml.is_fake is false and ml.unhidden_date is not null and ml.ftd_date>ml.unhidden_date then ml.unhidden_date
+  else ml.ftd_date end as date) as ftd_day,
 CURRENT_TIMESTAMP AS current_datetime
     FROM 
         public_brm.sales_transactions_transformed st
