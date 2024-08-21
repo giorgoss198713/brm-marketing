@@ -86,3 +86,8 @@ models:
       config:
           enabled: true
           tags: marketing_leads_transformed_live_late
+    - name: dialer_status_date_lead_dbt
+      description: "showing status per date for each lead"
+      config:
+          enabled: true
+          tags: dialer_status_date_lead
