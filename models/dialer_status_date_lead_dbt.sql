@@ -6,7 +6,7 @@ WITH jsonb_ml AS (SELECT
 FROM 
     public_brm.change_log_marketing_leads
 WHERE 
-created_date > CURRENT_DATE - interval '90 days'
+created_date > CURRENT_DATE - interval '180 days'
 ),
 extract_status AS(
     SELECT 
@@ -20,29 +20,44 @@ extract_status AS(
         WHEN dialer_name='CB9' AND dialer_campaign_id IN (169,170) THEN 'CB9 - ITL'
         WHEN dialer_name='CB9' AND dialer_campaign_id NOT IN (169,170) THEN 'CB9 - BR2'
         ELSE 'Unknown' END AS dialer_name_language,
-        CAST(jsonb_array_elements(change_log) ->> 'updatedDate' AS date) AS updated_date,
+		jsonb_array_elements(change_log) ->> 'updatedDate' AS updated_date,
+        CAST(jsonb_array_elements(change_log) ->> 'updatedDate' AS date) AS updated_day,
         jsonb_array_elements(change_log) -> 'changes' ->> 'dialer_status' AS dialer_status
     FROM 
         jsonb_ml
 ),
+max_within_date AS(
+	SELECT 
+        id,
+		updated_day,
+		updated_date,
+		dialer_name_language,
+		CASE WHEN dialer_status iLIKE '%Call Again - Personal%' THEN 'Call Again - Personal' ELSE dialer_status END AS dialer_status,
+        ROW_NUMBER() OVER (PARTITION BY id, updated_date::date ORDER BY updated_date DESC) AS r
+    FROM 
+        extract_status
+		where 
+		dialer_status is not null 
+		--AND id=2690237
+),
 unique_status AS (
     SELECT 
         id,
-        updated_date,
+		updated_day,
         dialer_name_language,
         dialer_status
     FROM 
-        extract_status
+        max_within_date
     WHERE 
-        dialer_status IS NOT NULL
+		r=1
     ORDER BY 
-        updated_date
+      updated_day
 ),
 date_ranges AS (
     SELECT 
         id,
-        updated_date AS start_date,
-        COALESCE(lead(updated_date, 1) OVER (PARTITION BY id ORDER BY updated_date), CURRENT_DATE + interval '1 day') AS end_date,
+        updated_day AS start_date,
+        COALESCE(lead(updated_day, 1) OVER (PARTITION BY id ORDER BY updated_day), CURRENT_DATE + interval '1 day') AS end_date,
         dialer_status,
         dialer_name_language
     FROM 
