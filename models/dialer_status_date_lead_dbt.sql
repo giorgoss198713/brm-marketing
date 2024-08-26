@@ -32,7 +32,10 @@ max_within_date AS(
 		updated_day,
 		updated_date,
 		dialer_name_language,
-		CASE WHEN dialer_status iLIKE '%Call Again - Personal%' THEN 'Call Again - Personal' ELSE dialer_status END AS dialer_status,
+		CASE 
+        WHEN dialer_status iLIKE '%Call Again - Personal%' THEN 'Call Again - Personal'
+        WHEN dialer_status iLIKE '%Call Again - General%' THEN 'Call Again - General' 
+        ELSE dialer_status END AS dialer_status,
         ROW_NUMBER() OVER (PARTITION BY id, updated_date::date ORDER BY updated_date DESC) AS r
     FROM 
         extract_status
