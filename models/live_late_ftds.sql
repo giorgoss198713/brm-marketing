@@ -13,6 +13,7 @@ campaign_name,
 affiliate_id,
 affiliate_name,
 source_id,
+valid_engage,
 utm_source,
 utm_medium,
 country,
@@ -27,6 +28,6 @@ where
 ftd_date IS NOT NULL
 GROUP BY  to_char(ftd_date, 'YYYY (' ||
 to_char(ftd_date,'MM') || ') Mon'), country, dialer_name, dialer_language, dialer_name_language, 
-campaign_id, campaign_name, affiliate_id, affiliate_name, source_id,
+campaign_id, campaign_name, affiliate_id, affiliate_name, source_id, valid_engage,
 utm_source,
 utm_medium
