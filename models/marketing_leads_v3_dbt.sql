@@ -131,6 +131,10 @@ or dialer_status iLIKE '%Language Barrier%'
 or dialer_status iLIKE '%Underage%'
 or dialer_status iLIKE '%Wrong Person%') THEN 'Invalid Deal'
 ELSE 'Valid' END) as invalid_status,
+CASE WHEN (dialer_status iLIKE '%Call Again%'
+or dialer_status iLIKE '%HUCC%')
+THEN 'Valid Engage'
+ELSE 'Not Valid Engage' END as valid_engage,
 ROUND(ftd_deposit_amount / 50) * 50 AS rounded_ftd_deposit_amount,
 (CASE WHEN ftd_deposit_amount>0 
 AND ftd_deposit_amount<100 THEN '01. $1-99'

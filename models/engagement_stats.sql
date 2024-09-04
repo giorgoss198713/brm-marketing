@@ -21,6 +21,7 @@ campaign_name,
 affiliate_name,
 affiliate_id,
 invalid_status,
+valid_engage,
 hidden,
 is_fake,
 inhouse_data_live,
@@ -30,7 +31,7 @@ concat_ws('_',to_char(created_date, 'YYYY (' ||
 to_char(created_date,'MM') || ') Mon'),dialer_id) as concat,			 
 count(id) as engagement_count
 from public_brm.marketing_leads_v3_dbt
-group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19
+group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
 )
 
 select
@@ -48,6 +49,7 @@ pt_count.campaign_name,
 pt_count.affiliate_name,
 pt_count.affiliate_id,
 pt_count.invalid_status,
+pt_count.valid_engage,
 pt_count.hidden,
 pt_count.is_fake,
 pt_count.inhouse_data_live,
