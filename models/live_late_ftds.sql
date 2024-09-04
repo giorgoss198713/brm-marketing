@@ -16,6 +16,7 @@ source_id,
 valid_engage,
 utm_source,
 utm_medium,
+inhouse_data_live,
 country,
 concat_ws('_',dialer_name,country) as dialer_country,
 coalesce(sum(live_ftd_count),0) as live_ftds,
@@ -28,6 +29,6 @@ where
 ftd_date IS NOT NULL
 GROUP BY  to_char(ftd_date, 'YYYY (' ||
 to_char(ftd_date,'MM') || ') Mon'), country, dialer_name, dialer_language, dialer_name_language, 
-campaign_id, campaign_name, affiliate_id, affiliate_name, source_id, valid_engage,
+campaign_id, campaign_name, affiliate_id, affiliate_name, source_id, valid_engage, inhouse_data_live,
 utm_source,
 utm_medium
