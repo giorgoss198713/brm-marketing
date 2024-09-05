@@ -1,11 +1,31 @@
-select ml.id, sales_lead_id, 
+select 
+ml.id, 
+sales_lead_id, 
+dialer_lead_id,
 created_date, 
+cast(created_date as date) as created_day,
 case when hidden is false and is_fake is false and unhidden_date is not null and ftd_date>unhidden_date then unhidden_date
 else ftd_date end as ftd_date, 
 unhidden_date,
-campaign_id, country, dialer_lead_id, dialer_agent,
-dialer_error, dialer_calls_count, utm_source, utm_medium, source_id,ftd, ftd_deposit_amount, redeposit, 
-redeposits_amount, last_redeposit_date, cost, hidden, selling_cost, cost_at_create, dialer_id,
+campaign_id, 
+country, 
+concat_ws('_',dialer_name,country) as dialer_country,
+dialer_agent,
+dialer_error, 
+dialer_calls_count, 
+utm_source, 
+utm_medium, 
+source_id,
+ftd, 
+ftd_deposit_amount, 
+redeposit, 
+redeposits_amount, 
+last_redeposit_date, 
+cost, 
+hidden, 
+selling_cost, 
+cost_at_create, 
+dialer_id,
 dialer_status,
 CASE WHEN dialer_name='C17' THEN 'EN'
     WHEN dialer_name='C2' AND ml.dialer_campaign_id=539 THEN 'TR/AZ'
@@ -16,6 +36,15 @@ CASE WHEN dialer_name='C17' THEN 'EN'
     WHEN dialer_name='CB9' AND ml.dialer_campaign_id IN (169,170) THEN 'ITL'
     WHEN dialer_name='CB9' AND ml.dialer_campaign_id NOT IN (169,170) THEN 'BR2'
     ELSE 'Unknown' END AS dialer_language,
+CASE WHEN dialer_name='C17' THEN 'C17 - EN'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id=539 THEN 'C2 - TR/AZ'
+    WHEN dialer_name='C2' AND ml.dialer_campaign_id!=539 THEN 'C2 - RU'
+    WHEN dialer_name='C4' THEN 'C4 - FR'
+    WHEN dialer_name='C6' THEN 'C6 - TH'
+    WHEN dialer_name='CB10' THEN 'CB10 - BR1'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id IN (169,170) THEN 'CB9 - ITL'
+    WHEN dialer_name='CB9' AND ml.dialer_campaign_id NOT IN (169,170) THEN 'CB9 - BR2'
+    ELSE 'Unknown' END AS dialer_name_language,
 CASE 
 WHEN dialer_status iLIKE '%Ghost%' then 'NOT ENGAGE'
 WHEN dialer_status iLIKE '%hang up%' then 'NOT ENGAGE'
@@ -166,10 +195,159 @@ cm.cost_type,
 cm.name as campaign_name,
 cm.affiliate_id,
 aff.name as affiliate_name,
-cm.inhouse_data_live
+cm.inhouse_data_live,
+(CASE 
+WHEN (to_char(created_date, 'HH24'))::numeric>=0 AND (to_char(created_date, 'HH24'))::numeric<1 
+THEN '00:00-00:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=1 AND (to_char(created_date, 'HH24'))::numeric<2
+THEN '01:00-01:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=2 AND (to_char(created_date, 'HH24'))::numeric<3
+THEN '02:00-02:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=3 AND (to_char(created_date, 'HH24'))::numeric<4
+THEN '03:00-03:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=4 AND (to_char(created_date, 'HH24'))::numeric<5
+THEN '04:00-04:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=5 AND (to_char(created_date, 'HH24'))::numeric<6
+THEN '05:00-05:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=6 AND (to_char(created_date, 'HH24'))::numeric<7
+THEN '06:00-06:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=7 AND (to_char(created_date, 'HH24'))::numeric<8
+THEN '07:00-07:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=8 AND (to_char(created_date, 'HH24'))::numeric<9
+THEN '08:00-08:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=9 AND (to_char(created_date, 'HH24'))::numeric<10
+THEN '09:00-09:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=10 AND (to_char(created_date, 'HH24'))::numeric<11
+THEN '10:00-10:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=11 AND (to_char(created_date, 'HH24'))::numeric<12
+THEN '11:00-11:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=12 AND (to_char(created_date, 'HH24'))::numeric<13
+THEN '12:00-12:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=13 AND (to_char(created_date, 'HH24'))::numeric<14
+THEN '13:00-13:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=14 AND (to_char(created_date, 'HH24'))::numeric<15
+THEN '14:00-14:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=15 AND (to_char(created_date, 'HH24'))::numeric<16
+THEN '15:00-15:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=16 AND (to_char(created_date, 'HH24'))::numeric<17
+THEN '16:00-16:59'
+WHEN (to_char(created_date, 'HH24'))::numeric>=17 AND (to_char(created_date, 'HH24'))::numeric<18
+THEN '17:00-17:59'
+WHEN (to_char(created_date, 'HH24'))::numeric >= 18 AND (to_char(created_date, 'HH24'))::numeric < 19
+THEN '18:00-18:59'
+WHEN (to_char(created_date, 'HH24'))::numeric >= 19 AND (to_char(created_date, 'HH24'))::numeric < 20
+THEN '19:00-19:59'
+WHEN (to_char(created_date, 'HH24'))::numeric >= 20 AND (to_char(created_date, 'HH24'))::numeric < 21
+THEN '20:00-20:59'
+WHEN (to_char(created_date, 'HH24'))::numeric >= 21 AND (to_char(created_date, 'HH24'))::numeric < 22
+THEN '21:00-21:59'
+WHEN (to_char(created_date, 'HH24'))::numeric >= 22 AND (to_char(created_date, 'HH24'))::numeric < 23
+THEN '22:00-22:59'
+WHEN (to_char(created_date, 'HH24'))::numeric >= 23 AND (to_char(created_date, 'HH24'))::numeric < 24
+THEN '23:00-23:59'
+ELSE 'Other' END) AS created_time_bucket,
+(CASE 
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=0 AND (to_char(ftd_date, 'HH24'))::numeric<1 
+THEN '00:00-00:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=1 AND (to_char(ftd_date, 'HH24'))::numeric<2
+THEN '01:00-01:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=2 AND (to_char(ftd_date, 'HH24'))::numeric<3
+THEN '02:00-02:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=3 AND (to_char(ftd_date, 'HH24'))::numeric<4
+THEN '03:00-03:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=4 AND (to_char(ftd_date, 'HH24'))::numeric<5
+THEN '04:00-04:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=5 AND (to_char(ftd_date, 'HH24'))::numeric<6
+THEN '05:00-05:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=6 AND (to_char(ftd_date, 'HH24'))::numeric<7
+THEN '06:00-06:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=7 AND (to_char(ftd_date, 'HH24'))::numeric<8
+THEN '07:00-07:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=8 AND (to_char(ftd_date, 'HH24'))::numeric<9
+THEN '08:00-08:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=9 AND (to_char(ftd_date, 'HH24'))::numeric<10
+THEN '09:00-09:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=10 AND (to_char(ftd_date, 'HH24'))::numeric<11
+THEN '10:00-10:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=11 AND (to_char(ftd_date, 'HH24'))::numeric<12
+THEN '11:00-11:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=12 AND (to_char(ftd_date, 'HH24'))::numeric<13
+THEN '12:00-12:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=13 AND (to_char(ftd_date, 'HH24'))::numeric<14
+THEN '13:00-13:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=14 AND (to_char(ftd_date, 'HH24'))::numeric<15
+THEN '14:00-14:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=15 AND (to_char(ftd_date, 'HH24'))::numeric<16
+THEN '15:00-15:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=16 AND (to_char(ftd_date, 'HH24'))::numeric<17
+THEN '16:00-16:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric>=17 AND (to_char(ftd_date, 'HH24'))::numeric<18
+THEN '17:00-17:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric >= 18 AND (to_char(ftd_date, 'HH24'))::numeric < 19
+THEN '18:00-18:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric >= 19 AND (to_char(ftd_date, 'HH24'))::numeric < 20
+THEN '19:00-19:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric >= 20 AND (to_char(ftd_date, 'HH24'))::numeric < 21
+THEN '20:00-20:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric >= 21 AND (to_char(ftd_date, 'HH24'))::numeric < 22
+THEN '21:00-21:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric >= 22 AND (to_char(ftd_date, 'HH24'))::numeric < 23
+THEN '22:00-22:59'
+WHEN (to_char(ftd_date, 'HH24'))::numeric >= 23 AND (to_char(ftd_date, 'HH24'))::numeric < 24
+THEN '23:00-23:59'
+ELSE NULL END) as ftd_time_bucket,
+(CASE 
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=0 AND (to_char(unhidden_date, 'HH24'))::numeric<1 
+THEN '00:00-00:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=1 AND (to_char(unhidden_date, 'HH24'))::numeric<2
+THEN '01:00-01:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=2 AND (to_char(unhidden_date, 'HH24'))::numeric<3
+THEN '02:00-02:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=3 AND (to_char(unhidden_date, 'HH24'))::numeric<4
+THEN '03:00-03:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=4 AND (to_char(unhidden_date, 'HH24'))::numeric<5
+THEN '04:00-04:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=5 AND (to_char(unhidden_date, 'HH24'))::numeric<6
+THEN '05:00-05:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=6 AND (to_char(unhidden_date, 'HH24'))::numeric<7
+THEN '06:00-06:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=7 AND (to_char(unhidden_date, 'HH24'))::numeric<8
+THEN '07:00-07:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=8 AND (to_char(unhidden_date, 'HH24'))::numeric<9
+THEN '08:00-08:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=9 AND (to_char(unhidden_date, 'HH24'))::numeric<10
+THEN '09:00-09:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=10 AND (to_char(unhidden_date, 'HH24'))::numeric<11
+THEN '10:00-10:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=11 AND (to_char(unhidden_date, 'HH24'))::numeric<12
+THEN '11:00-11:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=12 AND (to_char(unhidden_date, 'HH24'))::numeric<13
+THEN '12:00-12:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=13 AND (to_char(unhidden_date, 'HH24'))::numeric<14
+THEN '13:00-13:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=14 AND (to_char(unhidden_date, 'HH24'))::numeric<15
+THEN '14:00-14:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=15 AND (to_char(unhidden_date, 'HH24'))::numeric<16
+THEN '15:00-15:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=16 AND (to_char(unhidden_date, 'HH24'))::numeric<17
+THEN '16:00-16:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric>=17 AND (to_char(unhidden_date, 'HH24'))::numeric<18
+THEN '17:00-17:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric >= 18 AND (to_char(unhidden_date, 'HH24'))::numeric < 19
+THEN '18:00-18:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric >= 19 AND (to_char(unhidden_date, 'HH24'))::numeric < 20
+THEN '19:00-19:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric >= 20 AND (to_char(unhidden_date, 'HH24'))::numeric < 21
+THEN '20:00-20:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric >= 21 AND (to_char(unhidden_date, 'HH24'))::numeric < 22
+THEN '21:00-21:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric >= 22 AND (to_char(unhidden_date, 'HH24'))::numeric < 23
+THEN '22:00-22:59'
+WHEN (to_char(unhidden_date, 'HH24'))::numeric >= 23 AND (to_char(unhidden_date, 'HH24'))::numeric < 24
+THEN '23:00-23:59'
+ELSE NULL END) as unhidden_time_bucket
 from public_brm.marketing_leads ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 left join public_brm.affiliates aff on cm.affiliate_id=aff.id
 WHERE
 is_test is false
-AND CAST(created_date AS Date)<= CURRENT_DATE - INTERVAL '1 day'
