@@ -91,3 +91,8 @@ models:
       config:
           enabled: true
           tags: dialer_status_date_lead
+    - name: psp_names
+      description: "distinct psp names recent"
+      config:
+          enabled: true
+          tags: psp_names

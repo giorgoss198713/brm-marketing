@@ -66,8 +66,10 @@ WHEN notes iLike '%auto decline%' THEN 'Auto Decline'
 WHEN notes iLike '% Declined Merchant%' THEN 'Declined Merchant'
 WHEN notes iLike '%45046%'  THEN 'Card Account is Closed'
 WHEN (notes iLike '%45060%' OR notes iLike '%45160%') THEN 'Cancel Recurring Contract'
-WHEN notes iLike '%45063%'  THEN 'Security Violation'
-WHEN (notes iLike '%45082%' OR notes ilike '%rejected by issuer%' OR notes ilike '%Bank decline%' OR notes ilike '%Issuer declined the transaction%%')  THEN 'Issuer Decline'
+WHEN (notes iLike '%45063%' OR notes iLIKE 'security_violation' OR notes ilike '%card data security%' OR notes ilike '%security breach%' 
+OR notes ilike '%+Security+violation%') THEN 'Security Violation'
+WHEN (notes iLike '%45082%' OR notes ilike '%rejected by issuer%' OR notes ilike '%Bank decline%' 
+OR notes ilike '%Issuer declined the transaction%' or notes iLIKE '%issuer_decline%')  THEN 'Issuer Decline'
 WHEN notes iLike '%45099%'  THEN 'Transaction Requires SCA'
 WHEN notes iLike '%45282%'  THEN 'Issuer Policy'
 WHEN notes iLike '%46014%'  THEN ' No Routing Options Available'
@@ -87,7 +89,6 @@ WHEN notes ilike '%Invalid Request Parameter%' THEN 'Invalid Request Parameter'
 WHEN notes ilike '%44058%' THEN 'Invalid Amount'
 WHEN notes ilike '%44030%' THEN 'Issuer Format Error'
 WHEN notes ilike '%buyer falls outside%' THEN 'Buyer not in Risk Guidelines'
-WHEN (notes ilike '%card data security%' OR notes ilike '%security breach%' OR notes ilike '%+Security+violation%') THEN 'Security Breach'
 WHEN notes ilike '%Restrictions for the customer card%' THEN 'Card Restrictions'
 WHEN notes ilike '%General+decline+of+the+card%' THEN 'General Card Decline'
 WHEN notes ilike '%+Inactive+card+or+card%' THEN 'Inactive Card'
@@ -104,6 +105,11 @@ WHEN notes ilike '%invalid_pin%' THEN 'Incorrect PIN'
 WHEN notes ilike '%800.100.190%' THEN 'Invalid Configuration Data'
 WHEN notes ilike '%100.100.401%' THEN 'Invalid Cardholder Name'
 WHEN notes ilike '%new_card_not_unblocked%' THEN 'New Card not Unblocked'
+WHEN notes ilike '%PRCRT8%' THEN 'Payment Method not Allowed'
+WHEN notes ilike '%customer_challenge%' THEN 'Customer Failed Challenge'
+WHEN notes ilike '%100.390.111%' THEN 'Communication Error to Scheme'
+WHEN notes ilike '%invalid tax_id%' THEN 'Invalid Tax Id'
+WHEN notes ilike '%string should have%' THEN 'String Size Error'
 ELSE 'Unspecified Reason'
 END AS decline_reason,
 CASE 
@@ -149,8 +155,10 @@ WHEN notes iLike '%auto decline%' THEN concat_ws('_',lead_id,38)
 WHEN notes iLike '% Declined Merchant%' THEN concat_ws('_',lead_id,39)
 WHEN notes iLike '%45046%'  THEN concat_ws('_',lead_id,40)
 WHEN (notes iLike '%45060%' OR notes iLike '%45160%') THEN concat_ws('_',lead_id,41)
-WHEN notes iLike '%45063%'  THEN concat_ws('_',lead_id,42)
-WHEN (notes iLike '%45082%' OR notes ilike '%rejected by issuer%' OR notes ilike '%Bank decline%' OR notes ilike '%Issuer declined the transaction%%')  THEN concat_ws('_',lead_id,43)
+WHEN (notes iLike '%45063%' OR notes iLIKE 'security_violation' OR notes ilike '%card data security%' OR notes ilike '%security breach%' 
+OR notes ilike '%+Security+violation%') THEN concat_ws('_',lead_id,42)
+WHEN (notes iLike '%45082%' OR notes ilike '%rejected by issuer%' OR notes ilike '%Bank decline%' 
+OR notes ilike '%Issuer declined the transaction%' or notes iLIKE '%issuer_decline%')  THEN concat_ws('_',lead_id,43)
 WHEN notes iLike '%45099%'  THEN concat_ws('_',lead_id,44)
 WHEN notes iLike '%45282%'  THEN concat_ws('_',lead_id,45)
 WHEN notes iLike '%46014%'  THEN concat_ws('_',lead_id,46)
@@ -170,7 +178,6 @@ WHEN notes ilike '%Invalid Request Parameter%' THEN concat_ws('_',lead_id,58)
 WHEN notes ilike '%44058%' THEN concat_ws('_',lead_id,59)
 WHEN notes ilike '%44030%' THEN concat_ws('_',lead_id,60)
 WHEN notes ilike '%buyer falls outside%' THEN concat_ws('_',lead_id,61)
-WHEN (notes ilike '%card data security%' OR notes ilike '%security breach%' OR notes ilike '%+Security+violation%') THEN concat_ws('_',lead_id,62)
 WHEN notes ilike '%Restrictions for the customer card%' THEN concat_ws('_',lead_id,63)
 WHEN notes ilike '%General+decline+of+the+card%' THEN concat_ws('_',lead_id,64)
 WHEN notes ilike '%+Inactive+card+or+card%' THEN concat_ws('_',lead_id,65)
@@ -187,7 +194,12 @@ WHEN notes ilike '%invalid_pin%' THEN concat_ws('_',lead_id,74)
 WHEN notes ilike '%800.100.190%' THEN concat_ws('_',lead_id,75)
 WHEN notes ilike '%100.100.401%' THEN concat_ws('_',lead_id,30)
 WHEN notes ilike '%new_card_not_unblocked%' THEN concat_ws('_',lead_id,76)
-ELSE concat_ws('_',lead_id,77)
+WHEN notes ilike '%PRCRT8%' THEN concat_ws('_',lead_id,77)
+WHEN notes ilike '%customer_challenge%' THEN concat_ws('_',lead_id,78)
+WHEN notes ilike '%100.390.111%' THEN concat_ws('_',lead_id,79)
+WHEN notes ilike '%invalid tax_id%' THEN concat_ws('_',lead_id,80)
+WHEN notes ilike '%string should have%' THEN concat_ws('_',lead_id,81)
+ELSE concat_ws('_',lead_id,62)
 END AS lead_reason,
 CASE 
 WHEN psp IN ('AccentPay','Accetpayac') THEN 'Accentpay'
