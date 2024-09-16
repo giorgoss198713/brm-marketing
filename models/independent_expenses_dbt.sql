@@ -5,6 +5,7 @@ SELECT DISTINCT
         WHEN cet.dialer = 30 THEN 'C17'
         WHEN cet.dialer = 22 THEN 'C15'
         WHEN cet.dialer = 7 THEN 'C4'
+        WHEN cet.dialer = 47 THEN 'C7'
         WHEN cet.dialer = 3 THEN 'CB10'
         WHEN cet.dialer = 5 THEN 'CB9'
         WHEN cet.dialer = 2 THEN 'C1'
