@@ -10,6 +10,7 @@ FROM (VALUES
     (5,'CB9 - BR2', 'BR2'),
     (5,'CB9 - ITL', 'ITL'),
     (7,'C4 - FR', 'FR'),
+    (47,'C7 - FR', 'FR'),
     (17,'C6 - TH', 'TH'),
     (0,'Unknown', 'Unknown')
 ) AS dialer_languages(id,dialer_name_language, dialer_language)

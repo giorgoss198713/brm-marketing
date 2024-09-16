@@ -15,6 +15,7 @@ extract_status AS(
         WHEN dialer_name='C2' AND dialer_campaign_id=539 THEN 'C2 - TR/AZ'
         WHEN dialer_name='C2' AND dialer_campaign_id!=539 THEN 'C2 - RU'
         WHEN dialer_name='C4' THEN 'C4 - FR'
+        WHEN dialer_name='C7' THEN 'C7 - FR'
         WHEN dialer_name='C6' THEN 'C6 - TH'
         WHEN dialer_name='CB10' THEN 'CB10 - BR1'
         WHEN dialer_name='CB9' AND dialer_campaign_id IN (169,170) THEN 'CB9 - ITL'
