@@ -75,11 +75,12 @@ WHEN ftd_deposit_amount>=900 THEN '800+'
 ELSE NULL
 END) AS ftd_approx,
 cm.cost_type,
-cm.name as campaign_name
---aff.name as affiliate_name
+cm.name as campaign_name,
+affiliate_id,
+aff.name as affiliate_name
 from public_brm.marketing_leads ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
---left join public_brm.affiliates aff on cm.affiliate_id=aff.id
+left join public_brm.affiliates aff on cm.affiliate_id=aff.id
 WHERE
 is_test is false
 AND (created_date>'2023-12-31' OR ftd_date>'2023-12-31' OR unhidden_date>'2023-12-31')
