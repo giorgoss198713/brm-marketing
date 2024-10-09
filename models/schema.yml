@@ -96,3 +96,8 @@ models:
       config:
           enabled: true
           tags: psp_names
+    - name: month_expenses_dbt
+      description: "showing expenses per month per dialer"
+      config:
+          enabled: true
+          tags: month_expenses
