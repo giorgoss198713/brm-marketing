@@ -34,5 +34,17 @@ ft.month_year, ft.dialer_language, ft.country, ft.campaign_id, ft.campaign_name,
 ft.affiliate_id, ft.affiliate_name, ft.dialer_id, ftd_count, expense
 from ftd_table ft
 LEFT JOIN expense_table et ON et.campaign_country_month_dialer=ft.campaign_country_month_dialer
-ORDER BY country
+--ORDER BY country
 
+select
+to_char(expense_date, 'YYYY (MM) Mon') AS month_year,
+dialer_language,
+country,
+campaign_id,
+campaign_name,
+affiliate_id,
+affiliate_name,
+dialer as dialer_id,
+0::bigint as ftd_count,
+expense
+from  public_brm.independent_expenses_dbt
