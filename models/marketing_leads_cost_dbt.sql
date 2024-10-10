@@ -5,7 +5,7 @@ count(ml.id) as ftd_count from public_brm.marketing_leads_v2_dbt ml where ml.ftd
 ml.dialer_id, ml.campaign_id, ml.country),
 total_cte AS (SELECT DISTINCT ml.dialer_id, ml.country, ml.campaign_id, cm.affiliate_id,
 case when cm.cost_type='cpl' then cast(ml.created_date as date)
-when cm.cost_type='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
+--when cm.cost_type='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
 when cm.cost_type='cpa' and cast(ml.unhidden_date as date)>cast(ml.created_date as date) and cast(ml.ftd_date as date) is null then cast(ml.unhidden_date as date)
 when cm.cost_type='cpa' and cast(ml.ftd_date as date) is null then cast(ml.created_date as date)
 when cm.cost_type='cpa' and cast(ml.ftd_date as date)>cast(ml.created_date as date) then cast(ml.ftd_date as date) 
@@ -13,7 +13,7 @@ else cast(ml.created_date as date) end as date,
 cet.expense,
 CONCAT_WS('_',ml.campaign_id,
 ml.country,case when cm.cost_type='cpl' then cast(ml.created_date as date)
-when cm.cost_type='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
+--when cm.cost_type='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
 when cm.cost_type='cpa' and cast(ml.unhidden_date as date)>cast(ml.created_date as date) and cast(ml.ftd_date as date) is null then cast(ml.unhidden_date as date)
 when cm.cost_type='cpa' and cast(ml.ftd_date as date) is null then cast(ml.created_date as date)
 when cm.cost_type='cpa' and cast(ml.ftd_date as date)>cast(ml.created_date as date) then cast(ml.ftd_date as date) 
@@ -25,7 +25,7 @@ when cm.cost_type='cpa' then ft.ftd_count*ml.cost_at_create
 end as actual_cost,
 CONCAT_WS('_',ml.campaign_id,
 ml.country,case when cm.cost_type='cpl' then cast(ml.created_date as date)
-when cm.cost_type='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
+--when cm.cost_type='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
 when cm.cost_type='cpa' and cast(ml.unhidden_date as date)>cast(ml.created_date as date) and cast(ml.ftd_date as date) is null then cast(ml.unhidden_date as date)
 when cm.cost_type='cpa' and cast(ml.ftd_date as date) is null then cast(ml.created_date as date)
 when cm.cost_type='cpa' and cast(ml.ftd_date as date)>cast(ml.created_date as date) then cast(ml.ftd_date as date) 
@@ -44,19 +44,19 @@ then ml.cost_at_create
 else null end AS individual_cost
 from public_brm.marketing_leads_v2_dbt ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
-left join public_brm.unhidden_noleads_dbt un ON un.date_campaign_country=CONCAT_WS('_', case when cm.cost_type='cpa' 
-	then cast(ml.unhidden_date as date) end, 
-ml.dialer_id,ml.campaign_id,ml.country)
+--left join public_brm.unhidden_noleads_dbt un ON un.date_campaign_country=CONCAT_WS('_', case when cm.cost_type='cpa' 
+--	then cast(ml.unhidden_date as date) end, 
+-- ml.dialer_id,ml.campaign_id,ml.country)
 left join public_brm.campaign_expenses_transformed_dbt cet on cet.campaign_country_date_dialer=CONCAT_WS('_',ml.campaign_id,ml.country, 
 case when cm.cost_type ='cpl' then cast(ml.created_date as date)
-when cm.cost_type ='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
+--when cm.cost_type ='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
 when cm.cost_type ='cpa' and cast(ml.unhidden_date as date)>cast(ml.created_date as date) and cast(ml.ftd_date as date) is null 
  	then cast(ml.unhidden_date as date)
 when cm.cost_type ='cpa' and cast(ml.ftd_date as date) is null then cast(ml.created_date as date)
 when cm.cost_type ='cpa' and cast(ml.ftd_date as date)>cast(ml.created_date as date) then cast(ml.ftd_date as date) 
 else cast(ml.created_date as date)  end, ml.dialer_id)
 left join ftd_cte ft ON ft.date_campaign_country=CONCAT_WS('_', case when cm.cost_type ='cpl' then cast(ml.created_date as date)
-when cm.cost_type ='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
+--when cm.cost_type ='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
 when cm.cost_type ='cpa' and cast(ml.unhidden_date as date)>cast(ml.created_date as date) and cast(ml.ftd_date as date) is null 
 then cast(ml.unhidden_date as date)
 when cm.cost_type ='cpa' and cast(ml.ftd_date as date) is null and cast(ml.unhidden_date as date) is null then cast(ml.created_date as date)
@@ -66,7 +66,7 @@ ml.dialer_id,ml.campaign_id,ml.country)
 group by ml.dialer_id, ml.country, ml.campaign_id, cm.affiliate_id, cm.cost_type, ml.cost, cet.expense, 
 ml.cost_at_create, cet.expense, ft.ftd_count,
 case when cm.cost_type ='cpl' then cast(ml.created_date as date)
-when cm.cost_type ='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
+--when cm.cost_type ='cpa' and un.date_campaign_country is not null then cast(ml.unhidden_date as date)
 when cm.cost_type ='cpa' and cast(ml.unhidden_date as date)>cast(ml.created_date as date) and cast(ml.ftd_date as date) is null 
 	then cast(ml.unhidden_date as date)
 when cm.cost_type ='cpa' and cast(ml.ftd_date as date) is null then cast(ml.created_date as date)
