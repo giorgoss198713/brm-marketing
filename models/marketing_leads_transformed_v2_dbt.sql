@@ -34,6 +34,7 @@ ml.cost,
 ml.country,
 ml.invalid_status,
 CASE WHEN ml.valid_engage='Valid Engage' THEN 1 ELSE 0 END AS answered_binary,
+CASE WHEN sar.status='Rejected' THEN 1 ELSE 0 END AS rejected_binary,
 ml.ftd,
 ml.hidden,
 ml.is_fake,
@@ -90,9 +91,10 @@ CURRENT_TIMESTAMP AS current_datetime
 from public_brm.marketing_leads_v2_dbt ml
 left join public_brm.campaigns_v2_dbt cm on ml.campaign_id=cm.id
 left join public_brm.affiliates af on cm.affiliate_id =af.id
+left join public_brm.sales_transactions_rejected sar ON sar.lead_id=ml.sales_lead_id
 --left join public_brm.dialer_languages dl ON dl.id =ml.dialer_id
 left join created_cte cc ON cc.id=ml.id
 left join ftd_cte ft ON ft.id=ml.id
 left join unhidden_cte un ON un.id=ml.id
 WHERE
-created_date>'2023-12-31' OR ftd_date>'2023-12-31' OR unhidden_date>'2023-12-31'
+(ml.created_date>'2023-12-31' OR ml.ftd_date>'2023-12-31' OR ml.unhidden_date>'2023-12-31')
