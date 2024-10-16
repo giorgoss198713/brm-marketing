@@ -101,3 +101,8 @@ models:
       config:
           enabled: true
           tags: month_expenses
+    - name: approved_rate_dbt
+      description: "showing approval rate per affiliate and campaign"
+      config:
+          enabled: true
+          tags: approved_rate
